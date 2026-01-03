@@ -26,10 +26,10 @@ const Classroom = () => {
     e.preventDefault();
     if (!block.trim() || !room.trim()) return;
 
-    const newUid = `${block.toUpperCase()}${room}`;
+    const uid = `${block.toUpperCase()}${room}`;
 
-    // Client-side check: prevent duplicate uid
-    const isDuplicate = classrooms.some((c) => c.uid === newUid);
+    // Client-side duplicate check
+    const isDuplicate = classrooms.some((c) => c.uid === uid);
     if (isDuplicate) {
       setErrorMessage("This classroom already exists!");
       return;
@@ -39,7 +39,7 @@ const Classroom = () => {
       await createClassroom({
         block: block.toUpperCase(),
         room,
-        uid: newUid,
+        uid,
       });
 
       setBlock("");
@@ -127,29 +127,34 @@ const Classroom = () => {
 
             {/* Error Message */}
             {errorMessage && (
-              <div className="error-message">
-                {errorMessage}
-              </div>
+              <div className="error-message">{errorMessage}</div>
             )}
 
             <form onSubmit={handleSubmit}>
               <div className="modal-input-group">
-                <input
-                  type="text"
-                  placeholder="A, B,..."
-                  value={block}
-                  onChange={(e) => setBlock(e.target.value.toUpperCase())}
-                  required
-                  autoFocus
-                />
-                <input
-                  type="text"
-                  placeholder="101, 201,..."
-                  value={room}
-                  onChange={(e) => setRoom(e.target.value)}
-                  required
-                />
+                <div className="input-wrapper">
+                  <label>Block</label>
+                  <input
+                    type="text"
+                    placeholder="A, B..."
+                    value={block}
+                    onChange={(e) => setBlock(e.target.value.toUpperCase())}
+                    required
+                  />
+                </div>
+
+                <div className="input-wrapper">
+                  <label>Room</label>
+                  <input
+                    type="text"
+                    placeholder="101, 201..."
+                    value={room}
+                    onChange={(e) => setRoom(e.target.value)}
+                    required
+                  />
+                </div>
               </div>
+
               <div className="modal-actions">
                 <button type="button" className="cancel-btn" onClick={closeModal}>
                   Cancel
