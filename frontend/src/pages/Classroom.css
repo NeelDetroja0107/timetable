@@ -344,3 +344,30 @@
   text-align: center;
   border: 1px solid #fcc;
 }
+
+.modal-input-group {
+  display: flex;
+  flex-direction: column;
+  gap: 16px; /* space between the two fields */
+  margin-bottom: 20px;
+}
+
+.input-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 6px; /* space between label and input */
+}
+
+.input-label {
+  font-size: 18px;
+  font-weight: 600;
+  color: #333;
+  text-align: left;
+}
+
+.modal-content input {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 16px;
+}
