@@ -61,10 +61,8 @@ const Teacher = () => {
   };
 
   const handleDelete = async (id) => {
-    if (window.confirm("Are you sure you want to delete this teacher?")) {
       await deleteTeacher(id);
       fetchTeachers();
-    }
   };
 
   const openModal = () => {

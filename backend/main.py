@@ -5,6 +5,7 @@ import os
 
 from app.routes.classroom_route import router as classroom_router
 from app.routes.teacher_route import router as teacher_router
+from app.routes.branch_route import router as branch_router
 
 load_dotenv()
 
@@ -22,6 +23,7 @@ app.add_middleware(
 # ✅ Include routers
 app.include_router(classroom_router)
 app.include_router(teacher_router)
+app.include_router(branch_router)
 
 @app.get("/")
 def root():
