@@ -3,12 +3,22 @@ from app.models import Teacher, Branch
 from app.schema.teacher_schema import TeacherCreate, TeacherUpdate, TeacherResponse
 
 def create_teacher(db: Session, teacher: TeacherCreate):
-    existing_teacher = db.query(Teacher).filter(Teacher.uid == teacher.uid).first()
+    first_name = teacher.first_name.strip().capitalize()
+    last_name = teacher.last_name.strip().capitalize()
+
+    uid = f"{first_name}{last_name[0]}"
+
+    existing_teacher = db.query(Teacher).filter(Teacher.uid == uid).first()
     if existing_teacher:
-        raise ValueError(f"Teacher with UID '{teacher.uid}' already exists.")
-    
+        raise ValueError(f"Teacher with UID '{uid}' already exists.")
+
     teacher_data = teacher.model_dump(exclude={"branch_ids"})
-    db_teacher = Teacher(**teacher_data)
+    db_teacher = Teacher(
+        **teacher_data,
+        first_name=first_name,
+        last_name=last_name,
+        uid=uid
+    )
 
     if teacher.branch_ids:
         branches = db.query(Branch).filter(Branch.id.in_(teacher.branch_ids)).all()
@@ -17,7 +27,9 @@ def create_teacher(db: Session, teacher: TeacherCreate):
     db.add(db_teacher)
     db.commit()
     db.refresh(db_teacher)
+
     return TeacherResponse.from_orm(db_teacher)
+
 
 
 def get_all_teachers(db: Session):
