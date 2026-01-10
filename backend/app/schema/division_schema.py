@@ -1,4 +1,5 @@
 from pydantic import BaseModel
+from pydantic import ConfigDict
 
 class DivisionCreate(BaseModel):
     division: str
@@ -13,5 +14,4 @@ class DivisionUpdate(BaseModel):
 class DivisionResponse(DivisionCreate):
     id: int
 
-    class Config:
-        from_attributes = True
+    model_config = ConfigDict(from_attributes=True)
